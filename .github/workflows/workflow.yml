@@ -29,3 +29,26 @@ jobs:
           tags: |
             yogendrapratap/gapserviceapp:1.0
             yogendrapratap/gapserviceapp:${{ github.sha }}
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Copy files to remote server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          source: "docker-compose.yml"
+          target: "~/gap-service"
+
+      - name: Deploy on remote server
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          script: |
+            cd ~/gap-service
+            docker-compose pull
+            docker-compose down
+            docker-compose up -d
+            docker system prune -af
