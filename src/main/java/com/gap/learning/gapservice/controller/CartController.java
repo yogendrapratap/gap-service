@@ -17,10 +17,7 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
-
-    @Autowired
-    private TokenService tokenService;
-
+    
 
     @PostMapping(value = "/addToCart/user/{userId}")
     public ResponseEntity<String> addToCart(
