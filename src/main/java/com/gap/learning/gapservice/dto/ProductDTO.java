@@ -1,19 +1,17 @@
-package com.ecommerceapi.ecommerceapi.dto;
-
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Field;
+package com.gap.learning.gapservice.dto;
 
 import java.math.BigDecimal;
 
 public class ProductDTO {
 
-
     private String id;
+    private String productCode;
     private String productName;
-    private Long productId;
-    private String description;
     private BigDecimal price;
+    private String size;
+    private Boolean availability;
     private Integer quantity;
+    private Double carbonFootPrint;
 
     public String getId() {
         return id;
@@ -21,6 +19,15 @@ public class ProductDTO {
 
     public ProductDTO setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public ProductDTO setProductCode(String productCode) {
+        this.productCode = productCode;
         return this;
     }
 
@@ -33,24 +40,6 @@ public class ProductDTO {
         return this;
     }
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public ProductDTO setProductId(Long productId) {
-        this.productId = productId;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductDTO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
     public BigDecimal getPrice() {
         return price;
     }
@@ -60,12 +49,39 @@ public class ProductDTO {
         return this;
     }
 
+    public String getSize() {
+        return size;
+    }
+
+    public ProductDTO setSize(String size) {
+        this.size = size;
+        return this;
+    }
+
+    public Boolean getAvailability() {
+        return availability;
+    }
+
+    public ProductDTO setAvailability(Boolean availability) {
+        this.availability = availability;
+        return this;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
 
     public ProductDTO setQuantity(Integer quantity) {
         this.quantity = quantity;
+        return this;
+    }
+
+    public Double getCarbonFootPrint() {
+        return carbonFootPrint;
+    }
+
+    public ProductDTO setCarbonFootPrint(Double carbonFootPrint) {
+        this.carbonFootPrint = carbonFootPrint;
         return this;
     }
 }

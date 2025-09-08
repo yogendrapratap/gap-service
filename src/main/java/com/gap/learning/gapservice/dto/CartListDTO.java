@@ -1,4 +1,4 @@
-package com.ecommerceapi.ecommerceapi.dto;
+package com.gap.learning.gapservice.dto;
 
 import java.util.List;
 

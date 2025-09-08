@@ -1,6 +1,6 @@
 package com.gap.learning.gapservice.config;
 
-public class Users {
+public class User {
     private String username;
     private String password;
     private String role;

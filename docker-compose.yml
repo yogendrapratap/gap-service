@@ -1,0 +1,69 @@
+version: "3.9"
+services:
+  gapservice-app:
+    image: yogendrapratap/gapserviceapp:1.0
+    container_name: gapservice-app-container
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_APPLICATION_NAME: gap-service
+      SERVER_PORT: 8080
+      SERVER_SERVLET_CONTEXT_PATH: /gapservice
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/gap-db
+      SPRING_KAFKA_TOPIC: cart-topic
+      SPRING_KAFKA_CONSUMER_GROUP_ID: cart-group
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_KAFKA_PRODUCER_KEY_SERIALIZER: org.apache.kafka.common.serialization.StringSerializer
+      SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER: org.apache.kafka.common.serialization.StringSerializer
+      SPRING_KAFKA_ADMIN_PROPERTIES_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER: org.apache.kafka.common.serialization.StringDeserializer
+      SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER: org.apache.kafka.common.serialization.StringDeserializer
+    depends_on:
+      - mongo
+      - kafka
+    restart: always
+
+  mongo:
+    image: mongo:6.0.5-jammy
+    container_name: gap-service-mongo-container
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: gab-db
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: simapp-zookeeper-container
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    restart: always
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: simapp-kafka-container
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+    restart: always
+
+volumes:
+  mongo_data:
+
+networks:
+  default:
+    name: gap-service-network

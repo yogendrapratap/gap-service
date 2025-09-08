@@ -1,32 +1,31 @@
-package com.ecommerceapi.ecommerceapi.dto;
+package com.gap.learning.gapservice.dto;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CartDTO {
 
-    private Long productId;
-    private Long userId;
+    @NotBlank(message = "Product code cannot be blank")
+    private String productCode;
+
+    @NotNull(message = "Quantity cannot be null")
+    @Min(value = 1, message = "Quantity must be at least 1")
+    @Max(value = 100, message = "Quantity cannot exceed 100")
     private Integer quantity;
 
-    public CartDTO(Long productId, Long userId, Integer quantity) {
-        this.productId = productId;
-        this.userId = userId;
+    public CartDTO(String productCode, Integer quantity) {
+        this.productCode = productCode;
         this.quantity = quantity;
     }
 
-    public Long getProductId() {
-        return productId;
+    public String getProductCode() {
+        return productCode;
     }
 
-    public CartDTO setProductId(Long productId) {
-        this.productId = productId;
-        return this;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public CartDTO setUserId(Long userId) {
-        this.userId = userId;
+    public CartDTO setProductCode(String productCode) {
+        this.productCode = productCode;
         return this;
     }
 
